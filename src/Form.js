@@ -26,6 +26,7 @@ class Form extends Component {
         onSubmit={(event) => {
           event.preventDefault();
           this.props.submitHandler({ username, content, createdAt });
+          this.setState({ username: '', content: '' });
         }}
       >
         <label className="form-container__label">
