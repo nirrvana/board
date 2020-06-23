@@ -11,12 +11,18 @@ class App extends Component {
     ],
   };
 
+  send = (message) =>
+    this.setState(({ messages }) => ({ messages: [...messages, message] }));
+
   render() {
-    const { messages } = this.state;
+    const {
+      send,
+      state: { messages },
+    } = this;
 
     return (
       <div className="container">
-        <Form />
+        <Form send={send} />
         <MessageContainer messages={messages} />
       </div>
     );

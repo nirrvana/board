@@ -6,3 +6,7 @@
 .message-entry-container__wrapper {
   display: flex;
 }
+
+.form-container__submit {
+  width: 60px;
+}
