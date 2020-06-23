@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { send } from './redux/action';
 
 class Form extends Component {
   state = {
@@ -16,17 +18,14 @@ class Form extends Component {
   };
 
   render() {
-    const {
-      props: { send },
-      state: { username, content, createdAt },
-    } = this;
+    const { username, content, createdAt } = this.state;
 
     return (
       <form
         className="form-container"
         onSubmit={(event) => {
           event.preventDefault();
-          send({ username, content, createdAt });
+          this.props.submitHandler({ username, content, createdAt });
         }}
       >
         <label className="form-container__label">
@@ -53,4 +52,8 @@ class Form extends Component {
   }
 }
 
-export default Form;
+const mapDispatchToProps = (dispatch) => ({
+  submitHandler: (message) => dispatch(send(message)),
+});
+
+export default connect(null, mapDispatchToProps)(Form);
