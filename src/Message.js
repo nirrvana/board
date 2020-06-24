@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { editMessage, deleteMessage } from './redux/action';
+import { isEmpty, getDate } from './helper';
 
 class Message extends Component {
   state = {
@@ -9,27 +10,10 @@ class Message extends Component {
     editedAt: this.props.message.createdAt,
   };
 
-  isEmpty = (value) => !/\S/.test(value);
-
-  getDate = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();
-    const date = today.getDate();
-    const hour = today.getHours();
-    const minute = today.getMinutes();
-
-    const editedAt = `${year}-${month + 1 < 10 ? `0${month + 1}` : month}-${
-      date < 10 ? `0${date}` : date
-    } ${hour < 10 ? `0${hour}` : hour}:${minute < 10 ? `0${minute}` : minute}`;
-
-    return editedAt;
-  };
-
   clickHandler = (isEditMode) => (event) => {
     this.setState({ isEditMode: !isEditMode });
     if (isEditMode) {
-      const editedAt = this.getDate();
+      const editedAt = getDate();
       this.setState({ editedAt });
       this.submitHandler(event);
     }
@@ -42,7 +26,7 @@ class Message extends Component {
     } = this;
 
     if (key === 'Enter' || type === 'click') {
-      if (this.isEmpty(content)) {
+      if (isEmpty(content)) {
         window.alert('Please enter the content');
         this.setState({ isEditMode: true });
       } else {

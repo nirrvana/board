@@ -1,28 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { sendMessage } from './redux/action';
+import { isEmpty, getDate } from './helper';
 
 class Form extends Component {
   state = {
     username: '',
     content: '',
-  };
-
-  isEmpty = (value) => !/\S/.test(value);
-
-  getDate = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();
-    const date = today.getDate();
-    const hour = today.getHours();
-    const minute = today.getMinutes();
-
-    const createdAt = `${year}-${month + 1 < 10 ? `0${month + 1}` : month}-${
-      date < 10 ? `0${date}` : date
-    } ${hour < 10 ? `0${hour}` : hour}:${minute < 10 ? `0${minute}` : minute}`;
-
-    return createdAt;
   };
 
   updateUsername = ({ target: { value: username } }) => {
@@ -36,12 +20,12 @@ class Form extends Component {
   submitHandler = (username, content) => (event) => {
     event.preventDefault();
 
-    if (this.isEmpty(username)) {
+    if (isEmpty(username)) {
       window.alert('Please enter your username');
-    } else if (this.isEmpty(content)) {
+    } else if (isEmpty(content)) {
       window.alert('Please enter the content');
     } else {
-      const createdAt = this.getDate();
+      const createdAt = getDate();
       this.props.dispatchSendMessage({ username, content, createdAt });
       this.setState({ username: '', content: '' });
     }
