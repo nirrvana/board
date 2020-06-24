@@ -6,12 +6,24 @@ class Message extends Component {
   state = {
     isEditMode: false,
     content: this.props.message.content,
-    createdAt: '2020-06-23',
+    createdAt: this.props.message.createdAt,
+  };
+
+  getDate = () => {
+    const today = new Date();
+    const editedAt = `${today.getFullYear()}-${
+      today.getMonth() + 1 < 10 ? `0${today.getMonth() + 1}` : today.getMonth()
+    }-${today.getDate()} ${today.getHours()}:${
+      today.getMinutes() < 10 ? `0${today.getMinutes()}` : today.getMinutes()
+    }`;
+    return editedAt;
   };
 
   clickHandler = (isEditMode) => (event) => {
     this.setState({ isEditMode: !isEditMode });
     if (isEditMode) {
+      const editedAt = this.getDate();
+      this.setState({ createdAt: editedAt });
       this.submitHandler(event);
     }
   };
@@ -19,11 +31,11 @@ class Message extends Component {
   submitHandler = ({ key, type }) => {
     const {
       props: { index, dispatchEditMessage },
-      state: { content },
+      state: { content, editedAt },
     } = this;
 
     if (key === 'Enter' || type === 'click') {
-      dispatchEditMessage(index, content);
+      dispatchEditMessage(index, content, editedAt);
       this.setState({ isEditMode: false });
     }
   };
@@ -37,17 +49,17 @@ class Message extends Component {
     this.setState({ content });
   };
 
-  renderOrEditMessage = (isEditMode) => {
+  renderOrEditMessage = (isEditMode, content) => {
     return !isEditMode ? (
       <input
         className="message-entry-container__render-content"
-        value={this.state.content}
+        value={content}
         disabled
       />
     ) : (
       <input
         className="message-entry-container__edit-content"
-        value={this.state.content}
+        value={content}
         onChange={this.updateContent}
         onKeyDown={this.submitHandler}
       />
@@ -57,7 +69,7 @@ class Message extends Component {
   render() {
     const {
       props: { message },
-      state: { isEditMode },
+      state: { isEditMode, content, createdAt },
     } = this;
 
     return (
@@ -65,11 +77,9 @@ class Message extends Component {
         <div className="message-entry-container__username">
           {message.username}
         </div>
-        {this.renderOrEditMessage(isEditMode)}
+        {this.renderOrEditMessage(isEditMode, content)}
         <div className="message-entry-container__wrapper">
-          <div className="message-entry-container__created-at">
-            {message.createdAt}
-          </div>
+          <div className="message-entry-container__created-at">{createdAt}</div>
           <button
             className="message-entry-container__edit-button"
             onClick={this.clickHandler(isEditMode)}
@@ -89,8 +99,8 @@ class Message extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchEditMessage: (index, content) =>
-    dispatch(editMessage(index, content)),
+  dispatchEditMessage: (index, content, editedAt) =>
+    dispatch(editMessage(index, content, editedAt)),
   dispatchDeleteMessage: (index) => dispatch(deleteMessage(index)),
 });
 

@@ -6,7 +6,16 @@ class Form extends Component {
   state = {
     username: '',
     content: '',
-    createdAt: '2020-06-23',
+  };
+
+  getDate = () => {
+    const today = new Date();
+    const createdAt = `${today.getFullYear()}-${
+      today.getMonth() + 1 < 10 ? `0${today.getMonth() + 1}` : today.getMonth()
+    }-${today.getDate()} ${today.getHours()}:${
+      today.getMinutes() < 10 ? `0${today.getMinutes()}` : today.getMinutes()
+    }`;
+    return createdAt;
   };
 
   updateUsername = ({ target: { value: username } }) => {
@@ -17,19 +26,20 @@ class Form extends Component {
     this.setState({ content });
   };
 
-  submitHandler = (username, content, createdAt) => (event) => {
+  submitHandler = (username, content) => (event) => {
     event.preventDefault();
+    const createdAt = this.getDate();
     this.props.dispatchSendMessage({ username, content, createdAt });
     this.setState({ username: '', content: '' });
   };
 
   render() {
-    const { username, content, createdAt } = this.state;
+    const { username, content } = this.state;
 
     return (
       <form
         className="form-container"
-        onSubmit={this.submitHandler(username, content, createdAt)}
+        onSubmit={this.submitHandler(username, content)}
       >
         <label className="form-container__label">
           Username

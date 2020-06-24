@@ -2,8 +2,16 @@ import { SEND_MESSAGE, EDIT_MESSAGE, DELETE_MESSAGE } from './action';
 
 const initialState = {
   messages: [
-    { username: 'LEE', content: 'Dreams come true', createdAt: '2020-06-23' },
-    { username: 'KIM', content: 'All is well', createdAt: '2020-06-23' },
+    {
+      username: 'LEE',
+      content: 'Dreams come true',
+      createdAt: '2020-06-23 23:00',
+    },
+    {
+      username: 'KIM',
+      content: 'All is well',
+      createdAt: '2020-06-23 23:30',
+    },
   ],
 };
 
@@ -18,7 +26,11 @@ const reducer = (state = initialState, action) => {
       return {
         messages: messages.map((message, index) =>
           index === action.index
-            ? { ...message, content: action.content }
+            ? {
+                ...message,
+                content: action.content,
+                createdAt: action.editedAt,
+              }
             : message,
         ),
       };

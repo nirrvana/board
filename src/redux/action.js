@@ -7,10 +7,11 @@ export const sendMessage = (message) => ({
   message,
 });
 
-export const editMessage = (index, content) => ({
+export const editMessage = (index, content, editedAt) => ({
   type: EDIT_MESSAGE,
   index,
   content,
+  editedAt,
 });
 
 export const deleteMessage = (index) => ({
