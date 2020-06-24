@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { send } from './redux/action';
+import { sendMessage } from './redux/action';
 
 class Form extends Component {
   state = {
@@ -17,17 +17,19 @@ class Form extends Component {
     this.setState({ content });
   };
 
+  submitHandler = (username, content, createdAt) => (event) => {
+    event.preventDefault();
+    this.props.dispatchSendMessage({ username, content, createdAt });
+    this.setState({ username: '', content: '' });
+  };
+
   render() {
     const { username, content, createdAt } = this.state;
 
     return (
       <form
         className="form-container"
-        onSubmit={(event) => {
-          event.preventDefault();
-          this.props.submitHandler({ username, content, createdAt });
-          this.setState({ username: '', content: '' });
-        }}
+        onSubmit={this.submitHandler(username, content, createdAt)}
       >
         <label className="form-container__label">
           Username
@@ -54,7 +56,7 @@ class Form extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  submitHandler: (message) => dispatch(send(message)),
+  dispatchSendMessage: (message) => dispatch(sendMessage(message)),
 });
 
 export default connect(null, mapDispatchToProps)(Form);

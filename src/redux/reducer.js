@@ -1,4 +1,4 @@
-import { SEND_MESSAGE } from './action';
+import { SEND_MESSAGE, EDIT_MESSAGE } from './action';
 
 const initialState = {
   messages: [
@@ -13,6 +13,14 @@ const reducer = (state = initialState, action) => {
     case SEND_MESSAGE:
       return {
         messages: [...messages, action.message],
+      };
+    case EDIT_MESSAGE:
+      return {
+        messages: messages.map((message, index) =>
+          index === action.index
+            ? { ...message, content: action.content }
+            : message,
+        ),
       };
     default:
       return state;

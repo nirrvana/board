@@ -9,7 +9,7 @@ class MessageContainer extends Component {
     return (
       <div className="message-container">
         {messages.map((message, index) => (
-          <Message key={index} message={message} />
+          <Message key={index} index={index} message={message} />
         ))}
       </div>
     );

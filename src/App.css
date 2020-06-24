@@ -1,12 +1,20 @@
+/* form */
 .form-container {
   display: flex;
   flex-direction: column;
 }
 
+.form-container__submit {
+  width: 60px;
+}
+
+/* message */
 .message-entry-container__wrapper {
   display: flex;
 }
 
-.form-container__submit {
-  width: 60px;
+.message-entry-container__render-content {
+  border: none;
+  background-color: #ffffff;
+  color: #333333;
 }
