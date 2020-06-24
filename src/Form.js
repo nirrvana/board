@@ -8,6 +8,8 @@ class Form extends Component {
     content: '',
   };
 
+  isEmpty = (value) => !/\S/.test(value);
+
   getDate = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -33,9 +35,16 @@ class Form extends Component {
 
   submitHandler = (username, content) => (event) => {
     event.preventDefault();
-    const createdAt = this.getDate();
-    this.props.dispatchSendMessage({ username, content, createdAt });
-    this.setState({ username: '', content: '' });
+
+    if (this.isEmpty(username)) {
+      window.alert('Please enter your username');
+    } else if (this.isEmpty(content)) {
+      window.alert('Please enter the content');
+    } else {
+      const createdAt = this.getDate();
+      this.props.dispatchSendMessage({ username, content, createdAt });
+      this.setState({ username: '', content: '' });
+    }
   };
 
   render() {

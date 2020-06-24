@@ -9,6 +9,8 @@ class Message extends Component {
     editedAt: this.props.message.createdAt,
   };
 
+  isEmpty = (value) => !/\S/.test(value);
+
   getDate = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -40,8 +42,13 @@ class Message extends Component {
     } = this;
 
     if (key === 'Enter' || type === 'click') {
-      dispatchEditMessage(index, content, editedAt);
-      this.setState({ isEditMode: false });
+      if (this.isEmpty(content)) {
+        window.alert('Please enter the content');
+        this.setState({ isEditMode: true });
+      } else {
+        dispatchEditMessage(index, content, editedAt);
+        this.setState({ isEditMode: false });
+      }
     }
   };
 
