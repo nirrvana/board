@@ -6,16 +6,21 @@ class Message extends Component {
   state = {
     isEditMode: false,
     content: this.props.message.content,
-    createdAt: this.props.message.createdAt,
+    editedAt: this.props.message.createdAt,
   };
 
   getDate = () => {
     const today = new Date();
-    const editedAt = `${today.getFullYear()}-${
-      today.getMonth() + 1 < 10 ? `0${today.getMonth() + 1}` : today.getMonth()
-    }-${today.getDate()} ${today.getHours()}:${
-      today.getMinutes() < 10 ? `0${today.getMinutes()}` : today.getMinutes()
-    }`;
+    const year = today.getFullYear();
+    const month = today.getMonth();
+    const date = today.getDate();
+    const hour = today.getHours();
+    const minute = today.getMinutes();
+
+    const editedAt = `${year}-${month + 1 < 10 ? `0${month + 1}` : month}-${
+      date < 10 ? `0${date}` : date
+    } ${hour < 10 ? `0${hour}` : hour}:${minute < 10 ? `0${minute}` : minute}`;
+
     return editedAt;
   };
 
@@ -23,7 +28,7 @@ class Message extends Component {
     this.setState({ isEditMode: !isEditMode });
     if (isEditMode) {
       const editedAt = this.getDate();
-      this.setState({ createdAt: editedAt });
+      this.setState({ editedAt });
       this.submitHandler(event);
     }
   };
@@ -69,7 +74,7 @@ class Message extends Component {
   render() {
     const {
       props: { message },
-      state: { isEditMode, content, createdAt },
+      state: { isEditMode, content, editedAt },
     } = this;
 
     return (
@@ -79,7 +84,7 @@ class Message extends Component {
         </div>
         {this.renderOrEditMessage(isEditMode, content)}
         <div className="message-entry-container__wrapper">
-          <div className="message-entry-container__created-at">{createdAt}</div>
+          <div className="message-entry-container__created-at">{editedAt}</div>
           <button
             className="message-entry-container__edit-button"
             onClick={this.clickHandler(isEditMode)}
