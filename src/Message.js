@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { editMessage } from './redux/action';
+import { editMessage, deleteMessage } from './redux/action';
 
 class Message extends Component {
   state = {
@@ -26,6 +26,11 @@ class Message extends Component {
       dispatchEditMessage(index, content);
       this.setState({ isEditMode: false });
     }
+  };
+
+  deleteHandler = () => {
+    const { index, dispatchDeleteMessage } = this.props;
+    dispatchDeleteMessage(index);
   };
 
   updateContent = ({ target: { value: content } }) => {
@@ -71,7 +76,10 @@ class Message extends Component {
           >
             {isEditMode ? 'submit' : 'edit'}
           </button>
-          <button className="message-entry-container__delete-button">
+          <button
+            className="message-entry-container__delete-button"
+            onClick={this.deleteHandler}
+          >
             delete
           </button>
         </div>
@@ -83,6 +91,7 @@ class Message extends Component {
 const mapDispatchToProps = (dispatch) => ({
   dispatchEditMessage: (index, content) =>
     dispatch(editMessage(index, content)),
+  dispatchDeleteMessage: (index) => dispatch(deleteMessage(index)),
 });
 
 export default connect(null, mapDispatchToProps)(Message);
