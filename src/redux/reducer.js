@@ -1,42 +1,39 @@
-import { SEND_MESSAGE, EDIT_MESSAGE, DELETE_MESSAGE } from './action';
+import {
+  GET_MESSAGES,
+  SEND_MESSAGE,
+  EDIT_MESSAGE,
+  DELETE_MESSAGE,
+} from './action';
+import Api from './Api';
 
 const initialState = {
-  messages: [
-    {
-      username: 'LEE',
-      content: 'Dreams come true',
-      createdAt: '2020-06-23 23:00',
-    },
-    {
-      username: 'KIM',
-      content: 'All is well',
-      createdAt: '2020-06-23 23:30',
-    },
-  ],
+  messages: [],
 };
 
 const reducer = (state = initialState, action) => {
-  const { messages } = state;
+  let messages;
   switch (action.type) {
-    case SEND_MESSAGE:
+    case GET_MESSAGES:
+      messages = JSON.parse(Api.getMessages());
       return {
-        messages: [...messages, action.message],
+        messages,
+      };
+    case SEND_MESSAGE:
+      messages = JSON.parse(Api.sendMessage(action.message));
+      return {
+        messages,
       };
     case EDIT_MESSAGE:
+      messages = JSON.parse(
+        Api.editMessage(action.index, action.content, action.editedAt),
+      );
       return {
-        messages: messages.map((message, index) =>
-          index === action.index
-            ? {
-                ...message,
-                content: action.content,
-                createdAt: action.editedAt,
-              }
-            : message,
-        ),
+        messages,
       };
     case DELETE_MESSAGE:
+      messages = JSON.parse(Api.deleteMessage(action.index));
       return {
-        messages: messages.filter((_message, index) => index !== action.index),
+        messages,
       };
     default:
       return state;
