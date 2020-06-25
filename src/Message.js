@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { editMessage, deleteMessage } from './redux/action';
 import { isEmpty, getDate } from './helper';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 
 class Message extends Component {
   state = {
@@ -9,6 +10,12 @@ class Message extends Component {
     content: this.props.message.content,
     editedAt: this.props.message.createdAt,
   };
+
+  editContentField = React.createRef();
+
+  componentDidUpdate() {
+    this.state.isEditMode && this.editContentField.focus();
+  }
 
   clickHandler = (isEditMode) => (event) => {
     if (isEditMode) {
@@ -60,6 +67,9 @@ class Message extends Component {
       />
     ) : (
       <input
+        ref={(input) => {
+          this.editContentField = input;
+        }}
         className="message-entry-container__edit-content"
         value={content}
         onChange={this.updateContent}
@@ -75,27 +85,37 @@ class Message extends Component {
     } = this;
 
     return (
-      <div className="message-entry-container">
-        <div className="message-entry-container__username">
+      <Container className="message-entry-container">
+        <Row className="message-entry-container__username" noGutters={true}>
           {message.username}
-        </div>
+        </Row>
         {this.renderOrEditMessage(isEditMode, content)}
-        <div className="message-entry-container__wrapper">
-          <div className="message-entry-container__created-at">{editedAt}</div>
-          <button
-            className="message-entry-container__edit-button"
-            onClick={this.clickHandler(isEditMode)}
-          >
-            {isEditMode ? 'submit' : 'edit'}
-          </button>
-          <button
-            className="message-entry-container__delete-button"
-            onClick={this.deleteHandler}
-          >
-            delete
-          </button>
-        </div>
-      </div>
+        <Row className="message-entry-container__wrapper" noGutters={true}>
+          <Col className="message-entry-container__created-at" lg="6">
+            {editedAt}
+          </Col>
+          <Col lg="2">
+            <Button
+              className="message-entry-container__edit-button"
+              onClick={this.clickHandler(isEditMode)}
+              size="sm"
+              variant="secondary"
+            >
+              {isEditMode ? 'submit' : 'edit'}
+            </Button>
+          </Col>
+          <Col lg="4">
+            <Button
+              className="message-entry-container__delete-button"
+              onClick={this.deleteHandler}
+              size="sm"
+              variant="secondary"
+            >
+              delete
+            </Button>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }

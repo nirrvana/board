@@ -1,20 +1,74 @@
+/* app */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 580px;
+}
+
+.container-title {
+  margin-top: 30px;
+  font-size: 3rem;
+}
+
 /* form */
 .form-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  width: 580px;
+  height: 430px;
+  margin: 50px 0 50px 0;
+  padding: 25px;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
 }
 
+.form-container__label,
+.form-container__username-input,
+.form-container__content-input,
 .form-container__submit {
-  width: 60px;
+  width: 500px;
+}
+
+.form-container__content-input {
+  height: 200px;
+}
+
+/* message-container */
+.message-container {
+  margin-bottom: 50px;
 }
 
 /* message */
+.message-entry-container__username,
+.message-entry-container__render-content,
+.message-entry-container__edit-content,
 .message-entry-container__wrapper {
-  display: flex;
+  width: 500px;
+}
+
+.message-entry-container__username {
+  font-weight: bolder;
 }
 
 .message-entry-container__render-content {
   border: none;
-  background-color: #ffffff;
   color: #333333;
+  background-color: #ffffff;
+}
+
+.message-entry-container__edit-content {
+  border: none;
+  text-decoration: underline;
+}
+
+.message-entry-container__wrapper {
+  display: flex;
+  line-height: 31px;
+}
+
+.message-entry-container__edit-button,
+.message-entry-container__delete-button {
+  width: 60px;
 }

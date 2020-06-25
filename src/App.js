@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getMessages } from './redux/action';
-import Form from './Form';
+import Entry from './Entry';
 import MessageContainer from './MessageContainer';
+import { Container, Row } from 'react-bootstrap';
 import './App.css';
 
 class App extends Component {
@@ -12,10 +13,17 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container">
-        <Form />
-        <MessageContainer />
-      </div>
+      <Container className="container" fluid>
+        <Row className="container-row container-title" noGutters={true}>
+          BOARD
+        </Row>
+        <Row className="container-row" noGutters={true}>
+          <Entry />
+        </Row>
+        <Row className="container-row" noGutters={true}>
+          <MessageContainer />
+        </Row>
+      </Container>
     );
   }
 }
