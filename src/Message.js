@@ -11,11 +11,17 @@ class Message extends Component {
   };
 
   clickHandler = (isEditMode) => (event) => {
-    this.setState({ isEditMode: !isEditMode });
     if (isEditMode) {
-      const editedAt = getDate();
-      this.setState({ editedAt });
-      this.submitHandler(event);
+      if (isEmpty(this.state.content)) {
+        window.alert('Please enter the content');
+      } else {
+        const editedAt = getDate();
+        this.setState({ editedAt });
+        this.submitHandler(event);
+        this.setState({ isEditMode: false });
+      }
+    } else {
+      this.setState({ isEditMode: true });
     }
   };
 
